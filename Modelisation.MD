@@ -24,6 +24,19 @@ All these actions are explained later in the document.
 
 ## Internal State:
 
+- `moore` (bool): Should the world use Moore Neighborhood or Von Newman Neighborhood for movement.
+- `grass_progress_per_step` (int): The amount of `progress` to add to each `GrassPatch` each simulation step.
+- `sheep_initial_count` (int): The number of sheeps to create at the start of the simulation.
+- `sheep_energy_step_expenditure` (int): The amount of `energy` used by the sheeps each simulation step.
+- `sheep_energy_gain_from_food` (int): The amount of `energy` recovered by the sheep after eating grass.
+- `sheep_reproduction_energy_cost` (int): The amount of `energy` spent by the sheep to reproduce.
+- `sheep_reproduction_chance` (float): The chance of a sheep reproducing if it has enough `energy`.
+- `wolf_initial_count` (int): The number of wolves to create at the start of the simulation.
+- `wolf_energy_step_expenditure` (int): The amount of `energy` used by the wolves each simulation step.
+- `wolf_energy_gain_from_food` (int): The amount of `energy` recovered by the wolf after eating a sheep.
+- `wolf_reproduction_energy_cost` (int): The amount of `energy` spent by the wolf to reproduce.
+- `wolf_reproduction_chance` (float): The chance of a wolf reproducing if it has enough `energy`.
+
 ## Behavior:
 
 On initialization:
@@ -34,29 +47,31 @@ On initialization:
 
 On Simulation Step:
 
-- Step all the agents
+- Step all the agents.
 - Only one of these can happen (first have higher priority):
-  - If an animal has 0 `energy`, kill it
-  - If an animal's `is_hungry` is set to `true` and the animal is on a tile with an eatable agent, the animal eats the other agent.
+  - If an animal has 0 `energy`, kill it.
+  - If an animal's `is_hungry` is set to `true` and the animal is on a tile with an eatable agent, the animal eats the other agent (explained below).
   - If an animal's `can_reproduce` is set to `true` the animal has a chance to reproduce equal to `reproduction_chance`:
-    - The new animal is created in the same cell as the parent animal with 10 `energy`
-    - The parent animal looses `reproduction_energy_cost`
+    - The new animal is created in the same cell as the parent animal with `2 * energy_step_expenditure + 1` `energy`.
+    - The parent animal looses `reproduction_energy_cost` `energy`.
 
 Eating behavior:
 The order of eating is the follow: wolves eat first, sheeps eat second.
 
-- For `Sheep`:
-  - Conditions:
-    - Is on the same cell as a `GrassPatch` with `fully_grown` set to `true`.
-  - Effects:
-    - Reset the grass `progress` to 0.
-    - Increase the sheep's `energy` by `energy_gain_from_food`.
 - For `Wolf`:
+
   - Conditions:
     - Is on the same cell as a `Sheep`.
   - Effects:
     - Kill the sheep.
     - Increase the wolf's `energy` by `energy_gain_from_food`.
+
+- For `Sheep`:
+  - Conditions:
+    - Is on the same cell as a `GrassPatch` with `fully_grown` set to `true`.
+  - Effects:
+    - Set the grass `progress` to 0 and `fully_grown` to `false`.
+    - Increase the sheep's `energy` by `energy_gain_from_food`.
 
 # Agents
 
@@ -64,15 +79,16 @@ The order of eating is the follow: wolves eat first, sheeps eat second.
 
 ### Internal State:
 
-- `progress` (int [0 - 100]): The percentage growth of the patch
-- `progress_per_step` (int): The percentage increase of the growth for a simulation step
+- `progress` (int [0 - 100]): The percentage growth of the patch.
+- `progress_per_step` (int): The percentage increase of the growth for a simulation step.
+- `fully_grown` (bool): Is the grass fully grown and ready to eat.
 
 ### Behavior:
 
 Each simulation step:
 
-- The patch growth percentage `progress` increases by `progress_per_step`
-- If `progress` is `100`, the patch is considered `fully_grown`
+- The patch growth percentage `progress` increases by `progress_per_step`.
+- If `progress` is `100`, the patch is considered `fully_grown`.
 
 ### Display
 
@@ -84,25 +100,27 @@ If the patch is `fully_grown`, it will be green.
 
 ### Internal State
 
-- `grid` (MultiGrid): The grid in which the agent lives
-- `pos` (int, int): The agents current position in the grid
-- `moore` (bool): If True, may move in all 8 directionsOtherwise, only up, down, left, right
+- `grid` (MultiGrid): The grid in which the agent lives.
+- `pos` (int, int): The agents current position in the grid.
+- `moore` (bool): If True, may move in all 8 directions. Otherwise, only up, down, left, right.
 
 ### Behavior
 
-Each simulation step move to a random neighboring cell or stay in the current cell
+Each simulation step:
+
+- Move to a random neighboring cell or stay in the current cell.
 
 ## `Animal` (Abstract) (Inherits `RandomWalker`):
 
 ### Internal State
 
-- `energy` (int [0 - 100]): The percentage of energy the animal has
-- `energy_step_expenditure` (int): The percentage of energy the animal uses each step
-- `energy_gain_from_food` (int): The percentage of energy the animal gains from eating
-- `reproduction_energy_cost` (int): The percentage of energy the animal looses when reproducing
-- `reproduction_chance` (float): The chance the animal has to reproduce if it has enough energy
-- `is_hungry` (bool): Is the animal hungry
-- `can_reproduce` (bool): Can the animal reproduce
+- `energy` (int [0 - 100]): The percentage of energy the animal has.
+- `energy_step_expenditure` (int): The percentage of energy the animal uses each step.
+- `energy_gain_from_food` (int): The percentage of energy the animal gains from eating.
+- `reproduction_energy_cost` (int): The percentage of energy the animal looses when reproducing.
+- `reproduction_chance` (float): The chance the animal has to reproduce if it has enough energy.
+- `is_hungry` (bool): Is the animal hungry.
+- `can_reproduce` (bool): Can the animal reproduce.
 
 ### Behavior
 
@@ -110,7 +128,7 @@ Each simulation step:
 
 - Reduce the `energy` by `step_energy_expenditure`.
 - Set `is_hungry` to `true` if `energy <= 100 - energy_gain_from_food` else, set it to `false`.
-- Set `can_reproduce` to `true` if `energy >= 10 + reproduction_energy_cost`, else set it to `false`.
+- Set `can_reproduce` to `true` if `energy > step_energy_expenditure + reproduction_energy_cost`, else set it to `false`.
 
 ### Display
 
@@ -118,19 +136,11 @@ A red progress bar shows the `energy`.
 
 ## Sheep (Inherits `Animal`)
 
-### Internal State
-
-### Behavior
-
 ### Display
 
 The sheep is displayed using an image of a sheep.
 
 ## Wolf (Inherits `Animal`)
-
-### Internal State
-
-### Behavior
 
 ### Display
 

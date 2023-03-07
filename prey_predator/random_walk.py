@@ -15,9 +15,14 @@ class RandomWalker(Agent):
 
     """
 
-    def __init__(self, unique_id: int, model: Model,
-                grid: MultiGrid, pos: Coordinate, moore: bool
-                ):
+    def __init__(
+        self,
+        unique_id: int,
+        model: Model,
+        grid: MultiGrid,
+        pos: Coordinate,
+        moore: bool,
+    ):
         """
         Args:
         - `grid` (MultiGrid): The grid in which the agent lives.

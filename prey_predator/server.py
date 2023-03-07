@@ -17,10 +17,10 @@ def wolf_sheep_portrayal(agent):
             "yAlign": 1,
             "Layer": 0,
             "Color": "#42f55d" if agent.is_fully_grown else "#e5ff00",
-            "Filled": "true"
+            "Filled": "true",
         }
-    
-    if(isinstance(agent, Animal)):
+
+    if isinstance(agent, Animal):
         protrayal = {
             "Shape": "rect",
             "w": agent.energy / 100,
@@ -38,54 +38,67 @@ def wolf_sheep_portrayal(agent):
         return protrayal
     return {}
 
-server = ModularServer(
-    WolfSheep, 
 
+server = ModularServer(
+    WolfSheep,
     # Visualisation
     [
         CanvasGrid(wolf_sheep_portrayal, WORLD_SIZE[0], WORLD_SIZE[1], 500, 500),
-        ChartModule([
-            {"Label": "Average Grass Growth", "Color": "red"},
-        ]),
-        ChartModule([
-            {"Label": "Average Sheep Energy", "Color": "red"},
-            {"Label": "Max Sheep Energy", "Color": "green"},
-        ]),
-        ChartModule([
-            {"Label": "Average Wolf Energy", "Color": "red"},
-            {"Label": "Max Wolf Energy", "Color": "green"},
-        ]),
-        ChartModule([
-            {"Label": "# Sheeps", "Color": "red"},
-            {"Label": "# Wolves", "Color": "green"},
-        ]),
-    ], 
-
+        ChartModule(
+            [
+                {"Label": "Average Grass Growth", "Color": "red"},
+            ]
+        ),
+        ChartModule(
+            [
+                {"Label": "Average Sheep Energy", "Color": "red"},
+                {"Label": "Max Sheep Energy", "Color": "green"},
+            ]
+        ),
+        ChartModule(
+            [
+                {"Label": "Average Wolf Energy", "Color": "red"},
+                {"Label": "Max Wolf Energy", "Color": "green"},
+            ]
+        ),
+        ChartModule(
+            [
+                {"Label": "# Sheeps", "Color": "red"},
+                {"Label": "# Wolves", "Color": "green"},
+            ]
+        ),
+    ],
     "Prey Predator Model",
-
     # Model Params
     {
         # Simulation World
         "moore": Checkbox("Moore grid ?", True),
-
         # Grass
         "grass_progress_per_step": Slider("Grass: growth % per step", 5, 0, 100),
-
         # Sheep
         "sheep_initial_count": Slider("Sheep: Initial count", 100, 0, 200),
-        "sheep_energy_step_expenditure": Slider("Sheep: Energy expenditure each step", 5, 0, 100),
-        "sheep_energy_gain_from_food": Slider("Sheep: Energy gain from food", 20, 0, 100),
-        "sheep_reproduction_energy_cost": Slider("Sheep: Reproduction cost", 40, 0, 100),
-        "sheep_reproduction_chance": Slider("Sheep: Reproduction chance", 0.05, 0, 1, 0.001),
-
+        "sheep_energy_step_expenditure": Slider(
+            "Sheep: Energy expenditure each step", 5, 0, 100
+        ),
+        "sheep_energy_gain_from_food": Slider(
+            "Sheep: Energy gain from food", 20, 0, 100
+        ),
+        "sheep_reproduction_energy_cost": Slider(
+            "Sheep: Reproduction cost", 40, 0, 100
+        ),
+        "sheep_reproduction_chance": Slider(
+            "Sheep: Reproduction chance", 0.05, 0, 1, 0.001
+        ),
         # Wolf
         "wolf_initial_count": Slider("Wolf: Initial count", 50, 0, 200),
-        "wolf_energy_step_expenditure": Slider("Wolf: Energy expenditure each step", 5, 0, 100),
+        "wolf_energy_step_expenditure": Slider(
+            "Wolf: Energy expenditure each step", 5, 0, 100
+        ),
         "wolf_energy_gain_from_food": Slider("Wolf: Energy gain from food", 20, 0, 100),
         "wolf_reproduction_energy_cost": Slider("Wolf: Reproduction cost", 40, 0, 100),
-        "wolf_reproduction_chance": Slider("Wolf: Reproduction chance", 0.05, 0, 0.5, 0.001),
-
-
-    }
+        "wolf_reproduction_chance": Slider(
+            "Wolf: Reproduction chance", 0.05, 0, 0.5, 0.001
+        ),
+    },
 )
 server.port = 8521
