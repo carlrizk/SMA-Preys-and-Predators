@@ -145,3 +145,8 @@ The sheep is displayed using an image of a sheep.
 ### Display
 
 The wolf is displayed using an image of a wolf.
+
+# Metodology of parameters
+
+After trying different parameters and thanks to the graphs that we've used, notably the graphic with the number of wolves, we could deduce the need of different parameter values such as a higher `energy_gain_from_food`, `reproduction_cost`, `reproduction_chance` and a lower `energy_spenditure_each_step` compared to the sheeps in order to achieve an stable population of around 10 wolves and 200 sheeps.
+You can see in server.py the default parameters that allows us to reach the equilibrium point.

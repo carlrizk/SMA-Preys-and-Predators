@@ -81,23 +81,23 @@ server = ModularServer(
             "Sheep: Energy expenditure each step", 5, 0, 100
         ),
         "sheep_energy_gain_from_food": Slider(
-            "Sheep: Energy gain from food", 20, 0, 100
+            "Sheep: Energy gain from food", 35, 0, 100
         ),
         "sheep_reproduction_energy_cost": Slider(
-            "Sheep: Reproduction cost", 40, 0, 100
+            "Sheep: Reproduction cost", 30, 0, 100
         ),
         "sheep_reproduction_chance": Slider(
             "Sheep: Reproduction chance", 0.05, 0, 1, 0.001
         ),
         # Wolf
-        "wolf_initial_count": Slider("Wolf: Initial count", 50, 0, 200),
+        "wolf_initial_count": Slider("Wolf: Initial count", 20, 0, 200),
         "wolf_energy_step_expenditure": Slider(
-            "Wolf: Energy expenditure each step", 5, 0, 100
+            "Wolf: Energy expenditure each step", 2, 0, 100
         ),
-        "wolf_energy_gain_from_food": Slider("Wolf: Energy gain from food", 20, 0, 100),
-        "wolf_reproduction_energy_cost": Slider("Wolf: Reproduction cost", 40, 0, 100),
+        "wolf_energy_gain_from_food": Slider("Wolf: Energy gain from food", 50, 0, 100),
+        "wolf_reproduction_energy_cost": Slider("Wolf: Reproduction cost", 30, 0, 100),
         "wolf_reproduction_chance": Slider(
-            "Wolf: Reproduction chance", 0.05, 0, 0.5, 0.001
+            "Wolf: Reproduction chance", 0.201, 0, 0.5, 0.001
         ),
     },
 )
