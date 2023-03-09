@@ -52,10 +52,11 @@ On Simulation Step:
   - If an animal has 0 `energy`, kill it.
   - If an animal's `is_hungry` is set to `true` and the animal is on a tile with an eatable agent, the animal eats the other agent (explained below).
   - If an animal's `can_reproduce` is set to `true` the animal has a chance to reproduce equal to `reproduction_chance`:
-    - The new animal is created in the same cell as the parent animal with `2 * energy_step_expenditure + 1` `energy`.
+    - The new animal is created in the same cell as the parent animal with `energy = 2 * energy_step_expenditure + 1`.
     - The parent animal looses `reproduction_energy_cost` `energy`.
 
 Eating behavior:
+
 The order of eating is the follow: wolves eat first, sheeps eat second.
 
 - For `Wolf`:
@@ -91,6 +92,8 @@ Each simulation step:
 - If `progress` is `100`, the patch is considered `fully_grown`.
 
 ### Display
+
+![Grass](screenshots/grass.png)
 
 The grass patch is displayed as a rectangle with a width equal to the cell width and a height proportional to the growth `progress`.
 If the patch is not `fully_grown`, it will be yellow.
@@ -132,11 +135,15 @@ Each simulation step:
 
 ### Display
 
-A red progress bar shows the `energy`.
+![Energy Bar](screenshots/energy_bar.png)
+
+A red progress bar shows the `energy` percentage.
 
 ## Sheep (Inherits `Animal`)
 
 ### Display
+
+![Sheep](screenshots/sheep.png)
 
 The sheep is displayed using an image of a sheep.
 
@@ -144,9 +151,15 @@ The sheep is displayed using an image of a sheep.
 
 ### Display
 
+![Wolf](screenshots/wolf.png)
+
 The wolf is displayed using an image of a wolf.
 
 # Metodology of parameters
 
-After trying different parameters and thanks to the graphs that we've used, notably the graphic with the number of wolves, we could deduce the need of different parameter values such as a higher `energy_gain_from_food`, `reproduction_cost`, `reproduction_chance` and a lower `energy_spenditure_each_step` compared to the sheeps in order to achieve an stable population of around 10 wolves and 200 sheeps.
+After trying different parameters and thanks to the graphs that we've used, notably the graphic with the number of wolves, we could deduce the need of different parameter values such as a higher `energy_gain_from_food`, `reproduction_cost`, `reproduction_chance` and a lower `energy_spenditure_each_step` compared to the sheeps in order to achieve an stable population of around 13 wolves and 100 sheeps.
 You can see in server.py the default parameters that allows us to reach the equilibrium point.
+
+# Screenshot
+
+![Full Screenshot](screenshots/screenshot.png)

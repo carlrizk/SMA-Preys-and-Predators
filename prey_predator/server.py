@@ -90,7 +90,7 @@ server = ModularServer(
             "Sheep: Reproduction chance", 0.05, 0, 1, 0.001
         ),
         # Wolf
-        "wolf_initial_count": Slider("Wolf: Initial count", 20, 0, 200),
+        "wolf_initial_count": Slider("Wolf: Initial count", 15, 0, 200),
         "wolf_energy_step_expenditure": Slider(
             "Wolf: Energy expenditure each step", 2, 0, 100
         ),
